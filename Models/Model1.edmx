@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RRLiveModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="@INS_OPLM">
+          <Key>
+            <PropertyRef Name="DocEntry" />
+          </Key>
+          <Property Name="DocEntry" Type="int" Nullable="false" />
+          <Property Name="DocNum" Type="int" />
+          <Property Name="Period" Type="int" />
+          <Property Name="Instance" Type="smallint" />
+          <Property Name="Series" Type="int" />
+          <Property Name="Handwrtten" Type="char" MaxLength="1" />
+          <Property Name="Canceled" Type="char" MaxLength="1" />
+          <Property Name="Object" Type="nvarchar" MaxLength="20" />
+          <Property Name="LogInst" Type="int" />
+          <Property Name="UserSign" Type="int" />
+          <Property Name="Transfered" Type="char" MaxLength="1" />
+          <Property Name="Status" Type="char" MaxLength="1" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateTime" Type="smallint" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateTime" Type="smallint" />
+          <Property Name="DataSource" Type="char" MaxLength="1" />
+          <Property Name="RequestStatus" Type="char" MaxLength="1" />
+          <Property Name="Creator" Type="nvarchar" MaxLength="8" />
+          <Property Name="Remark" Type="ntext" />
+          <Property Name="U_LstMdyDt" Type="datetime" />
+          <Property Name="U_DocDate" Type="datetime" />
+          <Property Name="U_Remarks" Type="ntext" />
+          <Property Name="U_Status" Type="nvarchar" MaxLength="2" />
+          <Property Name="U_LstMdyBy" Type="nvarchar" MaxLength="30" />
+          <Property Name="U_ItemCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="U_ItemName" Type="nvarchar" MaxLength="100" />
+          <Property Name="U_ModBy" Type="nvarchar" MaxLength="30" />
+          <Property Name="U_ItemGrp" Type="nvarchar" MaxLength="30" />
+          <Property Name="U_Size" Type="nvarchar" MaxLength="30" />
+          <Property Name="U_Style" Type="nvarchar" MaxLength="30" />
+          <Property Name="U_UserSign" Type="nvarchar" MaxLength="30" />
+          <Property Name="U_PurPrice" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_ItmGrpCd" Type="nvarchar" MaxLength="30" />
+          <Property Name="U_PriLstNa" Type="nvarchar" MaxLength="100" />
+          <Property Name="U_BaseList" Type="nvarchar" MaxLength="100" />
+          <Property Name="U_SalFact" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_PurFact" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_EffDate" Type="datetime" />
+          <Property Name="U_PreparedBy" Type="nvarchar" MaxLength="30" />
+          <Property Name="U_PreBy" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="@INS_PLM1">
+          <Key>
+            <PropertyRef Name="DocEntry" />
+            <PropertyRef Name="LineId" />
+          </Key>
+          <Property Name="DocEntry" Type="int" Nullable="false" />
+          <Property Name="LineId" Type="int" Nullable="false" />
+          <Property Name="VisOrder" Type="int" />
+          <Property Name="Object" Type="nvarchar" MaxLength="20" />
+          <Property Name="LogInst" Type="int" />
+          <Property Name="U_CatalgCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="U_ItemName" Type="nvarchar" MaxLength="100" />
+          <Property Name="U_Brand" Type="nvarchar" MaxLength="50" />
+          <Property Name="U_SubBrand" Type="nvarchar" MaxLength="50" />
+          <Property Name="U_Remarks" Type="ntext" />
+          <Property Name="U_RowID" Type="nvarchar" MaxLength="50" />
+          <Property Name="U_Lock" Type="char" MaxLength="1" />
+          <Property Name="U_PrntName" Type="nvarchar" MaxLength="50" />
+          <Property Name="U_OodoCode" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="@INS_PLM2">
+          <Key>
+            <PropertyRef Name="DocEntry" />
+            <PropertyRef Name="LineId" />
+          </Key>
+          <Property Name="DocEntry" Type="int" Nullable="false" />
+          <Property Name="LineId" Type="int" Nullable="false" />
+          <Property Name="VisOrder" Type="int" />
+          <Property Name="Object" Type="nvarchar" MaxLength="20" />
+          <Property Name="LogInst" Type="int" />
+          <Property Name="U_State" Type="nvarchar" MaxLength="100" />
+          <Property Name="U_RowID" Type="nvarchar" MaxLength="50" />
+          <Property Name="U_MRP" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_SelPrice" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_Dirprice" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_Franprice" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_Remarks" Type="ntext" />
+          <Property Name="U_OMRP" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_OSelPrice" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_ODirprice" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_OFranprice" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_DirMRP" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_FranMRP" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_ODirMRP" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_OFranMRP" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="U_OffMRP" Type="numeric" Precision="19" Scale="6" />
+        </EntityType>
+        <EntityContainer Name="RRLiveModelStoreContainer">
+          <EntitySet Name="@INS_OPLM" EntityType="Self.@INS_OPLM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="@INS_PLM1" EntityType="Self.@INS_PLM1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="@INS_PLM2" EntityType="Self.@INS_PLM2" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RRLiveModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C_INS_OPLM">
+          <Key>
+            <PropertyRef Name="DocEntry" />
+          </Key>
+          <Property Name="DocEntry" Type="Int32" Nullable="false" />
+          <Property Name="DocNum" Type="Int32" />
+          <Property Name="Period" Type="Int32" />
+          <Property Name="Instance" Type="Int16" />
+          <Property Name="Series" Type="Int32" />
+          <Property Name="Handwrtten" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Canceled" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Object" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LogInst" Type="Int32" />
+          <Property Name="UserSign" Type="Int32" />
+          <Property Name="Transfered" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateTime" Type="Int16" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateTime" Type="Int16" />
+          <Property Name="DataSource" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="RequestStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Creator" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="U_LstMdyDt" Type="DateTime" Precision="3" />
+          <Property Name="U_DocDate" Type="DateTime" Precision="3" />
+          <Property Name="U_Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="U_Status" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="U_LstMdyBy" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="U_ItemCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="U_ItemName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="U_ModBy" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="U_ItemGrp" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="U_Size" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="U_Style" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="U_UserSign" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="U_PurPrice" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_ItmGrpCd" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="U_PriLstNa" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="U_BaseList" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="U_SalFact" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_PurFact" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_EffDate" Type="DateTime" Precision="3" />
+          <Property Name="U_PreparedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="U_PreBy" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="C_INS_PLM1">
+          <Key>
+            <PropertyRef Name="DocEntry" />
+            <PropertyRef Name="LineId" />
+          </Key>
+          <Property Name="DocEntry" Type="Int32" Nullable="false" />
+          <Property Name="LineId" Type="Int32" Nullable="false" />
+          <Property Name="VisOrder" Type="Int32" />
+          <Property Name="Object" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LogInst" Type="Int32" />
+          <Property Name="U_CatalgCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="U_ItemName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="U_Brand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="U_SubBrand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="U_Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="U_RowID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="U_Lock" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="U_PrntName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="U_OodoCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="C_INS_PLM2">
+          <Key>
+            <PropertyRef Name="DocEntry" />
+            <PropertyRef Name="LineId" />
+          </Key>
+          <Property Name="DocEntry" Type="Int32" Nullable="false" />
+          <Property Name="LineId" Type="Int32" Nullable="false" />
+          <Property Name="VisOrder" Type="Int32" />
+          <Property Name="Object" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LogInst" Type="Int32" />
+          <Property Name="U_State" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="U_RowID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="U_MRP" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_SelPrice" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_Dirprice" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_Franprice" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="U_OMRP" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_OSelPrice" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_ODirprice" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_OFranprice" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_DirMRP" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_FranMRP" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_ODirMRP" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_OFranMRP" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="U_OffMRP" Type="Decimal" Precision="19" Scale="6" />
+        </EntityType>
+        <EntityContainer Name="RRLiveEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C_INS_OPLM" EntityType="Self.C_INS_OPLM" />
+          <EntitySet Name="C_INS_PLM1" EntityType="Self.C_INS_PLM1" />
+          <EntitySet Name="C_INS_PLM2" EntityType="Self.C_INS_PLM2" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RRLiveModelStoreContainer" CdmEntityContainer="RRLiveEntities">
+          <EntitySetMapping Name="C_INS_OPLM">
+            <EntityTypeMapping TypeName="RRLiveModel.C_INS_OPLM">
+              <MappingFragment StoreEntitySet="@INS_OPLM">
+                <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+                <ScalarProperty Name="DocNum" ColumnName="DocNum" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Instance" ColumnName="Instance" />
+                <ScalarProperty Name="Series" ColumnName="Series" />
+                <ScalarProperty Name="Handwrtten" ColumnName="Handwrtten" />
+                <ScalarProperty Name="Canceled" ColumnName="Canceled" />
+                <ScalarProperty Name="Object" ColumnName="Object" />
+                <ScalarProperty Name="LogInst" ColumnName="LogInst" />
+                <ScalarProperty Name="UserSign" ColumnName="UserSign" />
+                <ScalarProperty Name="Transfered" ColumnName="Transfered" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="DataSource" ColumnName="DataSource" />
+                <ScalarProperty Name="RequestStatus" ColumnName="RequestStatus" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="U_LstMdyDt" ColumnName="U_LstMdyDt" />
+                <ScalarProperty Name="U_DocDate" ColumnName="U_DocDate" />
+                <ScalarProperty Name="U_Remarks" ColumnName="U_Remarks" />
+                <ScalarProperty Name="U_Status" ColumnName="U_Status" />
+                <ScalarProperty Name="U_LstMdyBy" ColumnName="U_LstMdyBy" />
+                <ScalarProperty Name="U_ItemCode" ColumnName="U_ItemCode" />
+                <ScalarProperty Name="U_ItemName" ColumnName="U_ItemName" />
+                <ScalarProperty Name="U_ModBy" ColumnName="U_ModBy" />
+                <ScalarProperty Name="U_ItemGrp" ColumnName="U_ItemGrp" />
+                <ScalarProperty Name="U_Size" ColumnName="U_Size" />
+                <ScalarProperty Name="U_Style" ColumnName="U_Style" />
+                <ScalarProperty Name="U_UserSign" ColumnName="U_UserSign" />
+                <ScalarProperty Name="U_PurPrice" ColumnName="U_PurPrice" />
+                <ScalarProperty Name="U_ItmGrpCd" ColumnName="U_ItmGrpCd" />
+                <ScalarProperty Name="U_PriLstNa" ColumnName="U_PriLstNa" />
+                <ScalarProperty Name="U_BaseList" ColumnName="U_BaseList" />
+                <ScalarProperty Name="U_SalFact" ColumnName="U_SalFact" />
+                <ScalarProperty Name="U_PurFact" ColumnName="U_PurFact" />
+                <ScalarProperty Name="U_EffDate" ColumnName="U_EffDate" />
+                <ScalarProperty Name="U_PreparedBy" ColumnName="U_PreparedBy" />
+                <ScalarProperty Name="U_PreBy" ColumnName="U_PreBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_INS_PLM1">
+            <EntityTypeMapping TypeName="RRLiveModel.C_INS_PLM1">
+              <MappingFragment StoreEntitySet="@INS_PLM1">
+                <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+                <ScalarProperty Name="LineId" ColumnName="LineId" />
+                <ScalarProperty Name="VisOrder" ColumnName="VisOrder" />
+                <ScalarProperty Name="Object" ColumnName="Object" />
+                <ScalarProperty Name="LogInst" ColumnName="LogInst" />
+                <ScalarProperty Name="U_CatalgCode" ColumnName="U_CatalgCode" />
+                <ScalarProperty Name="U_ItemName" ColumnName="U_ItemName" />
+                <ScalarProperty Name="U_Brand" ColumnName="U_Brand" />
+                <ScalarProperty Name="U_SubBrand" ColumnName="U_SubBrand" />
+                <ScalarProperty Name="U_Remarks" ColumnName="U_Remarks" />
+                <ScalarProperty Name="U_RowID" ColumnName="U_RowID" />
+                <ScalarProperty Name="U_Lock" ColumnName="U_Lock" />
+                <ScalarProperty Name="U_PrntName" ColumnName="U_PrntName" />
+                <ScalarProperty Name="U_OodoCode" ColumnName="U_OodoCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_INS_PLM2">
+            <EntityTypeMapping TypeName="RRLiveModel.C_INS_PLM2">
+              <MappingFragment StoreEntitySet="@INS_PLM2">
+                <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+                <ScalarProperty Name="LineId" ColumnName="LineId" />
+                <ScalarProperty Name="VisOrder" ColumnName="VisOrder" />
+                <ScalarProperty Name="Object" ColumnName="Object" />
+                <ScalarProperty Name="LogInst" ColumnName="LogInst" />
+                <ScalarProperty Name="U_State" ColumnName="U_State" />
+                <ScalarProperty Name="U_RowID" ColumnName="U_RowID" />
+                <ScalarProperty Name="U_MRP" ColumnName="U_MRP" />
+                <ScalarProperty Name="U_SelPrice" ColumnName="U_SelPrice" />
+                <ScalarProperty Name="U_Dirprice" ColumnName="U_Dirprice" />
+                <ScalarProperty Name="U_Franprice" ColumnName="U_Franprice" />
+                <ScalarProperty Name="U_Remarks" ColumnName="U_Remarks" />
+                <ScalarProperty Name="U_OMRP" ColumnName="U_OMRP" />
+                <ScalarProperty Name="U_OSelPrice" ColumnName="U_OSelPrice" />
+                <ScalarProperty Name="U_ODirprice" ColumnName="U_ODirprice" />
+                <ScalarProperty Name="U_OFranprice" ColumnName="U_OFranprice" />
+                <ScalarProperty Name="U_DirMRP" ColumnName="U_DirMRP" />
+                <ScalarProperty Name="U_FranMRP" ColumnName="U_FranMRP" />
+                <ScalarProperty Name="U_ODirMRP" ColumnName="U_ODirMRP" />
+                <ScalarProperty Name="U_OFranMRP" ColumnName="U_OFranMRP" />
+                <ScalarProperty Name="U_OffMRP" ColumnName="U_OffMRP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
