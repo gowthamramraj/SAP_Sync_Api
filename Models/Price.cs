@@ -19,9 +19,9 @@ namespace SAP_Sync_Api.Models
     }
 
 
-    public class UpdatePrice
+    public class PriceData
     {
-        public string DivisionCode { get; set; }
+        //public string DivisionCode { get; set; }
         public string ItemCode { get; set; }
         public string Brand { get; set; }
         public string SubBrand { get; set; }
@@ -32,6 +32,7 @@ namespace SAP_Sync_Api.Models
 
     public class PriceList 
     {
-    public List<UpdatePrice> UpdatePriceList { get; set; }
+        public string DivisionCode { get; set; }
+        public List<PriceData> PriceDataList { get; set; }
     }
 }

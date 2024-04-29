@@ -7,6 +7,14 @@ namespace SAP_Sync_Api.Models
 {
 
  
+
+    public class PriceListMaster
+    {
+        public string DivisionCode { get; set; }
+        public List<OPLM> oPLMs { get; set; }
+
+    }
+
     public class OPLM
     {
         public Nullable<System.DateTime> U_LstMdyDt { get; set; }
@@ -154,8 +162,5 @@ namespace SAP_Sync_Api.Models
         public Nullable<decimal> U_OFranMRP { get; set; }
         public Nullable<decimal> U_OffMRP { get; set; }
     }
-
-
-
-
+     
 }

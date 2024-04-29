@@ -34,7 +34,7 @@ namespace SAP_Sync_Api.Controllers
         // GET: PriceList
         [HttpPost]
         [Route("newitem/price")]
-        public string InsertNewPrice(OPLM PriceListData)
+        public string InsertNewPrice(PriceListMaster PriceListData)
         {
 
             oCompany = new Company();
@@ -89,7 +89,7 @@ namespace SAP_Sync_Api.Controllers
 
         [HttpPost]
         [Route("update/price")]
-        public string UpdateNewPrice(PriceList PriceListData)
+        public IHttpActionResult UpdateNewPrice(PriceList PriceListData)
         {
 
             oCompany = new Company();
@@ -134,12 +134,12 @@ namespace SAP_Sync_Api.Controllers
                 {
                     if (oCompany.Connected) oCompany.Disconnect();
                     Console.WriteLine(lErrCode + " - " + sErrMsg);
-                    return sErrMsg;
+                    return Content(System.Net.HttpStatusCode.BadRequest, sErrMsg);
                 }
                 else
                 {
                     Console.WriteLine(lErrCode + " - " + sErrMsg);
-                    return sErrMsg;
+                    return Content(System.Net.HttpStatusCode.BadRequest, sErrMsg);
                 }
                 /// required error handle
 
@@ -148,128 +148,151 @@ namespace SAP_Sync_Api.Controllers
             {
                 try
                 {
-                   return  UpdateItemPrice(PriceListData);
+                    var resp = UpdateItemPrice(PriceListData);
+                  //  return resp;
+                    return Ok(resp);
                     
+                }
+                catch (Exception ex)
+                {
+                    if (oCompany.Connected) oCompany.Disconnect();
+                    //return ex.Message.ToString();
+                    return Content(System.Net.HttpStatusCode.BadRequest, ex.Message.ToString());
+                }
+
+
+
+            }
+
+        }
+
+         
+
+        private string NewItemPrice(PriceListMaster PriceListData)
+        {
+            response = "";
+            string division_code = PriceListData.DivisionCode .ToString().ToUpper();
+            for (int i = 0; i < PriceListData.oPLMs.Count; i++)
+            {
+                response = NewPrice(PriceListData.oPLMs[i], division_code);
+
+            }
+            if (oCompany.Connected) oCompany.Disconnect();
+            return response;
+
+
+        }
+
+
+        public string NewPrice(OPLM PriceListData,string division_code)
+        {
+            if (division_code.ToUpper() != "ACC")
+            {
+                try
+                {
+                    SAPbobsCOM.GeneralService oGeneralService;
+                    SAPbobsCOM.GeneralData oGeneralData;
+                    // Dim oGeneralParams As SAPbobsCOM.GeneralDataParams
+                    SAPbobsCOM.GeneralData oChild;
+                    SAPbobsCOM.GeneralDataCollection oChildren;
+                    SAPbobsCOM.GeneralData oChild1;
+                    SAPbobsCOM.GeneralDataCollection oChildren1;
+                    SAPbobsCOM.CompanyService sCmp;
+                    sCmp = oCompany.GetCompanyService();
+
+                    oGeneralService = sCmp.GetGeneralService("PLM");
+                    oGeneralData = oGeneralService.GetDataInterface(SAPbobsCOM.GeneralServiceDataInterfaces.gsGeneralData);
+
+                    oGeneralData.SetProperty("U_DocDate", DateTime.Now);
+                    oGeneralData.SetProperty("U_LstMdyDt", DateTime.Now);
+                    oGeneralData.SetProperty("U_LstMdyBy", PriceListData.U_LstMdyBy);
+                    oGeneralData.SetProperty("U_Remarks", PriceListData.U_Remarks);
+                    oGeneralData.SetProperty("U_ItemCode", PriceListData.U_ItemCode);
+                    oGeneralData.SetProperty("U_ItemName", PriceListData.U_ItemName);
+                    oGeneralData.SetProperty("U_ItemGrp", PriceListData.U_ItemGrp);
+                    oGeneralData.SetProperty("U_Size", PriceListData.U_Size);
+                    oGeneralData.SetProperty("U_Style", PriceListData.U_Style);
+                    oGeneralData.SetProperty("U_UserSign", PriceListData.U_UserSign);
+                    // oGeneralData.SetProperty("U_PurPrice", PriceListData.U_PurPrice);
+                    oGeneralData.SetProperty("U_ItmGrpCd", PriceListData.U_ItmGrpCd);
+                    oGeneralData.SetProperty("U_Status", PriceListData.U_Status);
+
+                    oCompany.GetNewObjectCode(out tempStr);
+                    //  List<INS_PLM1> plm1 = new List<INS_PLM1>();
+                    List<PLM1> plm1 = PriceListData.pLM1;
+                    for (int index = 0; index <= PriceListData.pLM1.Count - 1; index++)
+                    {
+
+                        oChildren = oGeneralData.Child("INS_PLM1");
+                        oChild = oChildren.Add();
+
+                        oChild.SetProperty("U_CatalgCode", plm1[index].U_CatalgCode);
+                        oChild.SetProperty("U_ItemName", plm1[index].U_ItemName);
+                        oChild.SetProperty("U_SubBrand", plm1[index].U_SubBrand);
+                        oChild.SetProperty("U_Brand", plm1[index].U_Brand);
+                        oChild.SetProperty("U_Remarks", plm1[index].U_Remarks);
+                        oChild.SetProperty("U_PrntName", plm1[index].U_PrntName);
+                        oChild.SetProperty("U_RowID", plm1[index].U_RowID);
+                        oChild.SetProperty("U_Lock", plm1[index].U_Lock);
+
+                        oChildren1 = oGeneralData.Child("INS_PLM2");
+                        oChild1 = oChildren1.Add();
+
+
+                        //int line_id = oChild.GetProperty("LineId");
+                        List<PLM2> plm2 = plm1[index].pLM2;
+                        for (int i = 0; i <= plm2.Count - 1; i++)
+                        {
+
+                            oChild1.SetProperty("U_RowID", index.ToString());
+                            //oChild2.SetProperty("U_MRP", plm2[index].U_MRP);
+                            oChild1.SetProperty("U_MRP", plm2[i].U_MRP.ToString());
+                            oChild1.SetProperty("U_SelPrice", plm2[i].U_SelPrice.ToString());
+                            oChild1.SetProperty("U_Dirprice", plm2[i].U_Dirprice.ToString());
+                            oChild1.SetProperty("U_Remarks", plm2[i].U_Remarks.ToString());
+                            oChild1.SetProperty("U_OMRP", plm2[i].U_OMRP.ToString());
+                            oChild1.SetProperty("U_OSelPrice", plm2[i].U_OSelPrice.ToString());
+                            oChild1.SetProperty("U_ODirprice", plm2[i].U_ODirprice.ToString());
+                            oChild1.SetProperty("U_OFranprice", plm2[i].U_OFranprice.ToString());
+                            oChild1.SetProperty("U_DirMRP", plm2[i].U_DirMRP.ToString());
+                            oChild1.SetProperty("U_OFranMRP", plm2[i].U_OFranMRP.ToString());
+                            oChild1.SetProperty("U_OffMRP", plm2[i].U_OffMRP.ToString());
+
+
+                        }
+
+                    }
+                    oGeneralService.Add(oGeneralData);
+                    if (oCompany.Connected) oCompany.Disconnect();
+                    return "Success";
+
                 }
                 catch (Exception ex)
                 {
                     if (oCompany.Connected) oCompany.Disconnect();
                     return ex.Message.ToString();
                 }
-
-
-
             }
-
+            else { return ""; }
         }
 
-        private string NewItemPrice(OPLM PriceListData)
-        {
-            try
-            {
-                SAPbobsCOM.GeneralService oGeneralService;
-                SAPbobsCOM.GeneralData oGeneralData;
-                // Dim oGeneralParams As SAPbobsCOM.GeneralDataParams
-                SAPbobsCOM.GeneralData oChild;
-                SAPbobsCOM.GeneralDataCollection oChildren;
-                SAPbobsCOM.GeneralData oChild1;
-                SAPbobsCOM.GeneralDataCollection oChildren1;
-                SAPbobsCOM.CompanyService sCmp;
-                sCmp = oCompany.GetCompanyService();
-
-                oGeneralService = sCmp.GetGeneralService("PLM");
-                oGeneralData = oGeneralService.GetDataInterface(SAPbobsCOM.GeneralServiceDataInterfaces.gsGeneralData);
-
-                oGeneralData.SetProperty("U_DocDate", DateTime.Now);
-                oGeneralData.SetProperty("U_LstMdyDt", DateTime.Now);
-                oGeneralData.SetProperty("U_LstMdyBy", PriceListData.U_LstMdyBy);
-                oGeneralData.SetProperty("U_Remarks", PriceListData.U_Remarks);
-                oGeneralData.SetProperty("U_ItemCode", PriceListData.U_ItemCode);
-                oGeneralData.SetProperty("U_ItemName", PriceListData.U_ItemName);
-                oGeneralData.SetProperty("U_ItemGrp", PriceListData.U_ItemGrp);
-                oGeneralData.SetProperty("U_Size", PriceListData.U_Size);
-                oGeneralData.SetProperty("U_Style", PriceListData.U_Style);
-                oGeneralData.SetProperty("U_UserSign", PriceListData.U_UserSign);
-                // oGeneralData.SetProperty("U_PurPrice", PriceListData.U_PurPrice);
-                oGeneralData.SetProperty("U_ItmGrpCd", PriceListData.U_ItmGrpCd);
-                oGeneralData.SetProperty("U_Status", PriceListData.U_Status);
-
-                oCompany.GetNewObjectCode(out tempStr);
-                //  List<INS_PLM1> plm1 = new List<INS_PLM1>();
-                List<PLM1> plm1 = PriceListData.pLM1;
-                for (int index = 0; index <= PriceListData.pLM1.Count - 1; index++)
-                {
-
-                    oChildren = oGeneralData.Child("INS_PLM1");
-                    oChild = oChildren.Add();
-
-                    oChild.SetProperty("U_CatalgCode", plm1[index].U_CatalgCode);
-                    oChild.SetProperty("U_ItemName", plm1[index].U_ItemName);
-                    oChild.SetProperty("U_SubBrand", plm1[index].U_SubBrand);
-                    oChild.SetProperty("U_Brand", plm1[index].U_Brand);
-                    oChild.SetProperty("U_Remarks", plm1[index].U_Remarks);
-                    oChild.SetProperty("U_PrntName", plm1[index].U_PrntName);
-                    oChild.SetProperty("U_RowID", plm1[index].U_RowID);
-                    oChild.SetProperty("U_Lock", plm1[index].U_Lock);
-
-                    oChildren1 = oGeneralData.Child("INS_PLM2");
-                    oChild1 = oChildren1.Add();
-
-
-                    //int line_id = oChild.GetProperty("LineId");
-                    List<PLM2> plm2 = plm1[index].pLM2;
-                    for (int i = 0; i <= plm2.Count - 1; i++)
-                    {
-
-                        oChild1.SetProperty("U_RowID", index.ToString());
-                        //oChild2.SetProperty("U_MRP", plm2[index].U_MRP);
-                        oChild1.SetProperty("U_MRP", plm2[i].U_MRP.ToString());
-                        oChild1.SetProperty("U_SelPrice", plm2[i].U_SelPrice.ToString());
-                        oChild1.SetProperty("U_Dirprice", plm2[i].U_Dirprice.ToString());
-                        oChild1.SetProperty("U_Remarks", plm2[i].U_Remarks.ToString());
-                        oChild1.SetProperty("U_OMRP", plm2[i].U_OMRP.ToString());
-                        oChild1.SetProperty("U_OSelPrice", plm2[i].U_OSelPrice.ToString());
-                        oChild1.SetProperty("U_ODirprice", plm2[i].U_ODirprice.ToString());
-                        oChild1.SetProperty("U_OFranprice", plm2[i].U_OFranprice.ToString());
-                        oChild1.SetProperty("U_DirMRP", plm2[i].U_DirMRP.ToString());
-                        oChild1.SetProperty("U_OFranMRP", plm2[i].U_OFranMRP.ToString());
-                        oChild1.SetProperty("U_OffMRP", plm2[i].U_OffMRP.ToString());
-
-
-                    }
-                    
-                }
-                oGeneralService.Add(oGeneralData);
-                if (oCompany.Connected) oCompany.Disconnect();
-                return "Success";
-
-            }
-            catch (Exception ex)
-            {
-                if (oCompany.Connected) oCompany.Disconnect();
-                return ex.Message.ToString();
-            }
-
-            
-        }
 
         private string UpdateItemPrice(PriceList priceData)
         {
             response = "";
-
-            for (int i = 0; i < priceData.UpdatePriceList.Count; i++)
+            string division_code = priceData.DivisionCode.ToString().ToUpper();
+            for (int i = 0; i < priceData.PriceDataList .Count; i++)
             {
-                response =   UpdatePrice(priceData.UpdatePriceList[i]);
-
+                response =   UpdatePrice(priceData.PriceDataList[i], division_code);
             }
             if (oCompany.Connected) oCompany.Disconnect();
             return response;
 
         }
 
-        private string UpdatePrice(UpdatePrice priceData)
+        private string UpdatePrice(PriceData priceData,string division_code)
         {
-            if ((priceData.DivisionCode.ToUpper() != "ACC") && (priceData.DivisionCode.ToUpper() != "AKG"))
+            if ((division_code != "ACC") && (division_code != "AKG"))
             {
                 try
                 {
@@ -296,7 +319,7 @@ namespace SAP_Sync_Api.Controllers
                     oGeneralData = oGeneralService.GetByParams(oGeneralParams);
                     oChildren = oGeneralData.Child("INS_PLM2");
                     string DoQuery1 = "";
-                    if ((priceData.DivisionCode.ToUpper() == "ATC") || (priceData.DivisionCode.ToUpper() == "RRF") || (priceData.DivisionCode.ToUpper() == "RHL") || (priceData.DivisionCode.ToUpper() == "VT") || (priceData.DivisionCode.ToUpper() == "VG"))
+                    if ((division_code == "ATC") || (division_code == "RRF") || (division_code == "RHL") || (division_code  == "VT") || (division_code == "VG"))
                     {
                         //// to get the linenumber
                         DoQuery1 = "select C.LineId,c.U_MRP,c.U_SelPrice,U_FranMRP,U_Franprice ,U_DirMRP,U_Dirprice from  [@ins_oplm] a inner join [@ins_plm1] b on a.docentry=b.docentry " +
@@ -331,12 +354,13 @@ namespace SAP_Sync_Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    response = response + " , " + priceData.ItemCode + "got error - " + ex.Message.ToString();
+                    response = response + " , " + priceData.ItemCode + " - got error - " + ex.Message.ToString();
+
                     return response;
 
                 }
             }
-            else if ((priceData.DivisionCode.ToUpper() == "AKG"))
+            else if ((division_code == "AKG"))
             {
                 try
                 {
@@ -389,12 +413,12 @@ namespace SAP_Sync_Api.Controllers
 
 
                     oChildren.Item(LineNum - 1).SetProperty("U_FranMRP", priceData.MRP.ToString());
-                    oChildren.Item(LineNum - 1).SetProperty("U_Franprice", priceData.SalePriceCode.ToString());
+                    oChildren.Item(LineNum - 1).SetProperty("U_Franprice", priceData.SellingPrice.ToString());
                     oChildren.Item(LineNum - 1).SetProperty("U_OFranMRP", OldFranMRP.ToString());
                     oChildren.Item(LineNum - 1).SetProperty("U_OFranprice", OldFranprice.ToString());
 
                     oChildren.Item(LineNum - 1).SetProperty("U_DirMRP", priceData.MRP.ToString());
-                    oChildren.Item(LineNum - 1).SetProperty("U_Dirprice", priceData.SalePriceCode.ToString());
+                    oChildren.Item(LineNum - 1).SetProperty("U_Dirprice", priceData.SellingPrice.ToString());
                     oChildren.Item(LineNum - 1).SetProperty("U_ODirMRP", OldDirMRP.ToString());
                     oChildren.Item(LineNum - 1).SetProperty("U_ODirprice", OldDirprice.ToString());
 
@@ -404,13 +428,13 @@ namespace SAP_Sync_Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    response = response + " , " + priceData.ItemCode + "got error - " + ex.Message.ToString();
+                    response = response + " , " + priceData.ItemCode + " - got error - " + ex.Message.ToString();
                     return response;
 
                 }
 
             }
-            else if (priceData.DivisionCode.ToUpper() == "ACC")
+            else if (division_code == "ACC")
             {
                 try
                 {
@@ -444,7 +468,7 @@ namespace SAP_Sync_Api.Controllers
                         if (lRetCode != 0)
                         {
                             oCompany.GetLastError(out ErrCode, out ErrMsg);
-                            response = response + "Selling Price Error Code - " + ErrCode + "Error Message - " + ErrMsg + " in " + priceData.DivisionCode;
+                            response = response + "Selling Price Error Code - " + ErrCode + "Error Message - " + ErrMsg + " in " + division_code;
                             // return response;
                         }
                         else
@@ -478,7 +502,7 @@ namespace SAP_Sync_Api.Controllers
                         if (lRetCode != 0)
                         {
                             oCompany.GetLastError(out ErrCode, out ErrMsg);
-                            response = response + "MRP Error Code - " + ErrCode + "Error Message - " + ErrMsg + " in " + priceData.DivisionCode;
+                            response = response + "MRP Error Code - " + ErrCode + "Error Message - " + ErrMsg + " in " + division_code;
                             // return response;
                         }
                         else
@@ -500,7 +524,7 @@ namespace SAP_Sync_Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    response = response + " , " + priceData.ItemCode + "got error - " + ex.Message.ToString();
+                    response = response + " , " + priceData.ItemCode + " - got error - " + ex.Message.ToString();
                     return response;
 
                 }
