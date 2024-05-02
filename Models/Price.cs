@@ -28,6 +28,10 @@ namespace SAP_Sync_Api.Models
         public string SalePriceCode { get; set; }
         public double SellingPrice { get; set; }
         public double MRP { get; set; } 
+        public double FranPrice { get; set; } 
+        public double FranMRP { get; set; } 
+        public double DirPrice { get; set; } 
+        public double DirMRP { get; set; }
     }
 
     public class PriceList 
